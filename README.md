@@ -17,11 +17,12 @@ This repo provides four main stages:
 
 ```bash
 git clone git@github.com:ssshamiii/Brain-HIVE.git
-cd Brain-HIVE-main
+cd BRIDGE-main
 
-conda create -n brainhive python=3.13 -y
-conda activate brainhive
+conda create -n bridge python=3.13 -y
+conda activate bridge
 
+pip install torch==2.9.1+cu126 torchvision==0.24.1+cu126 --index-url https://download.pytorch.org/whl/cu126
 pip install -r requirements.txt
 pip install git+https://github.com/openai/CLIP.git
 ```
