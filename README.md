@@ -9,7 +9,7 @@ BRIDGE, a brain-vision representation integration framework that aligns two moda
 This repo provides four main stages:
 
 1) **Build visual embeddings**
-2) **Train brain↔vision contrastive model**
+2) **Train brain-vision contrastive model**
 3) **Train prior**
 4) **Build reconstruction**
 
@@ -37,9 +37,13 @@ The scripts assume the following layout:
 <BASE_DIR>/
   data/
     things-eeg/
-      Preprocessed_data_250Hz_whiten/   # EEG/MEG numpy / mat files
+      Preprocessed_data_250Hz_whiten/   # EEG numpy / mat files
       ...                               # THINGS images live under this folder
       embeddings/                       # output from build_embeddings
+    things-meg/
+      Preprocessed_data/                # MEG numpy / mat files
+      ...
+      embeddings/
     visual-layer/
       imagenet-1k-vl-enriched/
         data/                           # ImageNet images
