@@ -51,15 +51,15 @@ The scripts assume the following layout:
 ```
 Data sources:
   - EEG: [things-eeg](https://huggingface.co/datasets/Haitao999/things-eeg)
-  - MEG: [things-meg](https://huggingface.co/datasets/Haitao999/things-eeg-meg)
+  - MEG: [things-meg](https://huggingface.co/datasets/Haitao999/things-meg)
   - ImageNet: [imagenet-1k-vl-enriched](https://huggingface.co/datasets/visual-layer/imagenet-1k-vl-enriched)
 ### Pretrained diffusion (SDXL) + IP-Adapter weights
 
-Fusion Prior training(SDXL-base) and inference(SDXL-turbo for fast sampling) require:
+Prior training(SDXL-base) and inference(SDXL-turbo for fast sampling) require:
 
 - **SDXL base** (HuggingFace ID or local directory): `stabilityai/stable-diffusion-xl-base-1.0`
 - **SDXL turbo** (HuggingFace ID or local directory): `stabilityai/sdxl-turbo`
-- **SDXL IP-Adapter weights**: a single `*.safetensors` file: `h94/IP-Adapter/sdxl_models/ip-adapter_sdxl_vit-h.safetensors`  (path is set in `scripts/train_prior.sh`)
+- **SDXL IP-Adapter weights**: a single `*.safetensors` file: `h94/IP-Adapter/sdxl_models/ip-adapter_sdxl_vit-h.safetensors`
 
 We recommend storing them under:
 
@@ -71,7 +71,7 @@ We recommend storing them under:
 
 ### Visual encoders
 
-`build_embeddings.sh` can run multiple pretrained vision encoders (CLIP, DINOv2, VAE, RN50, SynCLR). By default it looks under:
+`build_embeddings.sh` can build multistage embeddings from pretrained visual encoders CLIP. By default it looks under:
 
 ```text
 <BASE_DIR>/pretrained/<model_name_or_path>
@@ -107,8 +107,6 @@ bash scripts/train_prior.sh
 
 > https://huggingface.co/fakekungfu/Fusion-Prior-H14_B32_VAE
 
-> https://huggingface.co/fakekungfu/Fusion-Prior-SynCLR_B32_VAE
-
 Reconstruction uses a trained Fusion Prior.
 
 ```bash
@@ -120,14 +118,7 @@ bash scripts/build_reconstruction.sh
 If you find our project is helpful, please cite our paper as
 
 ```
-@inproceedings{
-zheng2026learning,
-title={Learning Brain Representation with Hierarchical Visual Embeddings},
-author={Jiawen Zheng and Haonan Jia and MING LI and Yuhui Zheng and Yufeng Zeng and Yang Gao and Chen Liang},
-booktitle={The Fourteenth International Conference on Learning Representations},
-year={2026},
-url={https://openreview.net/forum?id=IEq71qS8B7}
-}
+
 ```
 
 # Related Work
