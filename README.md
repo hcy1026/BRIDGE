@@ -1,7 +1,7 @@
 # BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding
 
 This repository is the official implementation of BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding.
-<!--(https://arxiv.org/abs/2030.12345)-->
+<!--(https://arxiv.org)-->
 
 BRIDGE, a brain-vision representation integration framework that aligns two modalities through Visual Depth Encoding and Brain Granularity Encoding. BRIDGE extracts and fuses LAION CLIP ViT-B-32 representations from multiple depths, explicitly partitions stimulus-evoked EEG/MEG responses into a small number of temporally ordered stages. The resulting brain and visual embeddings are trained in a shared latent space by contrastive learning and can further support brain-to-image generation through a pretrained diffusion prior. 
 
@@ -17,7 +17,7 @@ This repo provides four main stages:
 ## 0. Environment
 
 ```bash
-git clone git@github.com:ssshamiii/Brain-HIVE.git
+git clone https://github.com/...
 cd BRIDGE-main
 
 conda create -n bridge python=3.13 -y
@@ -118,7 +118,6 @@ bash scripts/build_reconstruction.sh
 If you find our project is helpful, please cite our paper as
 
 ```
-
 ```
 -->
 
@@ -144,7 +143,3 @@ Our model achieves the following performances on :
 |THINGS-EEG|          80.8%        |      97.0%           |         33.7%        |      65.8%           |
 |THINGS-MEG|          33.1%        |      61.5%           |         7.4%         |      19.3%           |
 
-<!--
-## Contributing
-
->📋  Pick a licence and describe how to contribute to your code repository. -->
