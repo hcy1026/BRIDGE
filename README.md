@@ -1,8 +1,9 @@
 # BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding
 
-This repository is the official implementation of BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding(https://arxiv.org/abs/2030.12345). 
+This repository is the official implementation of BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding.
+<!--(https://arxiv.org/abs/2030.12345)-->
 
-BRIDGE, a brain-vision representation integration framework that aligns two modalities through Visual Depth Encoding and Brain Granularity Encoding. BRIDGE extracts and fuses CLIP ViT-B-32 representations from multiple depths, explicitly partitions stimulus-evoked EEG/MEG responses into a small number of temporally ordered stages. The resulting brain and visual embeddings are trained in a shared latent space by contrastive learning and can further support brain-to-image generation through a pretrained diffusion prior. 
+BRIDGE, a brain-vision representation integration framework that aligns two modalities through Visual Depth Encoding and Brain Granularity Encoding. BRIDGE extracts and fuses LAION CLIP ViT-B-32 representations from multiple depths, explicitly partitions stimulus-evoked EEG/MEG responses into a small number of temporally ordered stages. The resulting brain and visual embeddings are trained in a shared latent space by contrastive learning and can further support brain-to-image generation through a pretrained diffusion prior. 
 
 # Get Started
 
@@ -55,29 +56,33 @@ Data sources:
   - ImageNet: [imagenet-1k-vl-enriched](https://huggingface.co/datasets/visual-layer/imagenet-1k-vl-enriched)
 ### Pretrained diffusion (SDXL) + IP-Adapter weights
 
-Prior training(SDXL-base) and inference(SDXL-turbo for fast sampling) require:
+Prior training uses SDXL-base and inference uses SDXL-turbo for fast sampling 
+Requirements:
 
-- **SDXL base** (HuggingFace ID or local directory): `stabilityai/stable-diffusion-xl-base-1.0`
-- **SDXL turbo** (HuggingFace ID or local directory): `stabilityai/sdxl-turbo`
+- **SDXL base** (HuggingFace ID): `stabilityai/stable-diffusion-xl-base-1.0`
+- **SDXL turbo** (HuggingFace ID): `stabilityai/sdxl-turbo`
 - **SDXL IP-Adapter weights**: a single `*.safetensors` file: `h94/IP-Adapter/sdxl_models/ip-adapter_sdxl_vit-h.safetensors`
 
 We recommend storing them under:
 
 ```text
-<BASE_DIR>/pretrained/
-  ip-adapter_sdxl.safetensors
+<BASE_DIR>/
+  pretrained/
+    ip-adapter_sdxl.safetensors
+    stable-diffusion-xl-base-1.0
+    ...
   priors/              # output of train_prior.sh
 ```
 
 ### Visual encoders
 
-`build_embeddings.sh` can build multistage embeddings from pretrained visual encoders CLIP. By default it looks under:
+`build_embeddings.sh` can build multistage embeddings from pretrained visual CLIP ViT-B/32 - LAION-2B encoder. By default it looks under:
 
 ```text
-<BASE_DIR>/pretrained/<model_name_or_path>
+<BASE_DIR>/pretrained/laion/CLIP-ViT-B-32-laion2B-s34B-b79K
 ```
 
-If you prefer to load from HuggingFace directly, set `MODEL_PATH` in `scripts/build_embeddings.sh` to the HF IDs instead of local files.
+If you prefer to load from HuggingFace directly from `laion/CLIP-ViT-B-32-laion2B-s34B-b79K` , set `MODEL_PATH` in `scripts/build_embeddings.sh` to the HF IDs instead of local files.
 
 ## 2. Build visual embeddings
 
@@ -85,9 +90,7 @@ If you prefer to load from HuggingFace directly, set `MODEL_PATH` in `scripts/bu
 bash scripts/build_embeddings.sh
 ```
 
-We also provide cached visual embeddings on Hugging Face: https://huggingface.co/datasets/fakekungfu/Brain-HIVE_Visual_Embeddings
-
-## 3. Train brain↔vision contrastive model
+## 3. Train brain-vision contrastive model
 
 ```bash
 # Intra-subject
@@ -97,22 +100,19 @@ bash scripts/train_clip_intra.sh
 bash scripts/train_clip_inter.sh
 ```
 
-## 4. Train fusion prior and build reconstruction
+## 4. Train prior
 
 ```bash
 bash scripts/train_prior.sh
 ```
+## 5. Build reconstruction
 
-> **Note:** You can also directly use pretrained Fusion Priors from Hugging Face: 
-
-> https://huggingface.co/fakekungfu/Fusion-Prior-H14_B32_VAE
-
-Reconstruction uses a trained Fusion Prior.
+Reconstruction uses a pretrained Prior.
 
 ```bash
 bash scripts/build_reconstruction.sh
 ```
-
+<!--
 # Citation
 
 If you find our project is helpful, please cite our paper as
@@ -120,30 +120,31 @@ If you find our project is helpful, please cite our paper as
 ```
 
 ```
+-->
 
 # Related Work
 
 Similar works...
 
+[Learning Brain Representation with Hierarchical Visual Embeddings](https://openreview.net/forum?id=IEq71qS8B7)
+
 [Bridging the Vision-Brain Gap with an Uncertainty-Aware Blur Prior](https://arxiv.org/abs/2503.04207)
 
 [Visual Decoding and Reconstruction via EEG Embeddings with Guided Diffusion](https://proceedings.neurips.cc/paper_files/paper/2024/hash/ba5f1233efa77787ff9ec015877dbd1f-Abstract-Conference.html)
 
-[MB2C: Multimodal Bidirectional Cycle Consistency for Learning Robust Visual Neural Representations](https://openreview.net/pdf/190f8066abcf7146c3fa91dbf2aaca37d329c67f.pdf)
 
 ## Results
 
-Our model achieves the following performance on :
+Our model achieves the following performances on :
 
-### [Image Classification on ImageNet](https://paperswithcode.com/sota/image-classification-on-imagenet)
+### Brain-to-Image Retrieval on THINGS-EEG and THINGS-MEG
 
-| Model name         | Top 1 Accuracy  | Top 5 Accuracy |
-| ------------------ |---------------- | -------------- |
-| My awesome model   |     85%         |      95%       |
+| Dataset  | Intra Top 1 Accuracy  | Intra Top 5 Accuracy | Inter Top 1 Accuracy | Inter Top 5 Accuracy |
+|----------|-----------------------| -------------------- | -------------------- | -------------------- |
+|THINGS-EEG|          80.8%        |      97.0%           |         33.7%        |      65.8%           |
+|THINGS-MEG|          33.1%        |      61.5%           |         7.4%         |      19.3%           |
 
->📋  Include a table of results from your paper, and link back to the leaderboard for clarity and context. If your main result is a figure, include that figure and link to the command or notebook to reproduce it. 
-
-
+<!--
 ## Contributing
 
->📋  Pick a licence and describe how to contribute to your code repository. 
+>📋  Pick a licence and describe how to contribute to your code repository. -->
