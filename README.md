@@ -139,7 +139,7 @@ Our model achieves the following performances on :
 | THINGS-MEG (4-subject average) | 0.104 | 0.258 | 0.672 | 0.774 | 0.679 | 0.697 | 0.644 |
 
 
-[Qualitative EEG reconstruction results](reconstruction.png)
+![Qualitative EEG reconstruction results](reconstruction.png)
 
 
 ## Citation
