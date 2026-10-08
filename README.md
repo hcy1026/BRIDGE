@@ -18,7 +18,7 @@ This repo provides four main stages:
 
 ```bash
 git clone https://github.com/...
-cd BRIDGE-main
+cd BRIDGE
 
 conda create -n bridge python=3.13 -y
 conda activate bridge
