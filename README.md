@@ -1,28 +1,32 @@
 # BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding
 
-This repository is the official implementation of BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding.
-<!--(https://arxiv.org)-->
+**Official implementation of BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding (NeurIPS 2026).**
+
+[Repository](https://github.com/hcy1026/BRIDGE)
 
 BRIDGE, a brain-vision representation integration framework that aligns two modalities through Visual Depth Encoding and Brain Granularity Encoding. BRIDGE extracts and fuses LAION CLIP ViT-B-32 representations from multiple depths, explicitly partitions stimulus-evoked EEG/MEG responses into a small number of temporally ordered stages. The resulting brain and visual embeddings are trained in a shared latent space by contrastive learning and can further support brain-to-image generation through a pretrained diffusion prior. 
 
-# Get Started
+## Overview
 
-This repo provides four main stages:
+The repository follows four main stages:
 
-1) **Build visual embeddings**
-2) **Train brain-vision contrastive model**
-3) **Train prior**
-4) **Build reconstruction**
+1. **Extract visual embeddings** from a pretrained multi-depth CLIP encoder.
+2. **Train the brain–vision model** for intra-subject or inter-subject retrieval.
+3. **Train the image-to-diffusion prior** with visual data and the pretrained SDXL/IP-Adapter components.
+4. **Reconstruct images from EEG/MEG**, using the trained brain-side encoder and generation conditioning pathway.
+
+> **Reproducibility note:** The commands below retain the script names from the repository documentation supplied by the authors. Verify configuration variables, paths, checkpoint handling, and dependency versions against the corresponding scripts before running. Dataset splits, evaluation settings, and generation checkpoints must match the paper.
 
 ## 0. Environment
 
 ```bash
-git clone https://github.com/...
+git clone https://github.com/hcy1026/BRIDGE.git
 cd BRIDGE
 
 conda create -n bridge python=3.13 -y
 conda activate bridge
 
+# PyTorch CUDA 12.6 build; requires a compatible NVIDIA driver.
 pip install torch==2.9.1+cu126 torchvision==0.24.1+cu126 --index-url https://download.pytorch.org/whl/cu126
 pip install -r requirements.txt
 pip install git+https://github.com/openai/CLIP.git
@@ -112,24 +116,6 @@ Reconstruction uses a pretrained Prior.
 ```bash
 bash scripts/build_reconstruction.sh
 ```
-<!--
-# Citation
-
-If you find our project is helpful, please cite our paper as
-
-```
-```
--->
-
-# Related Work
-
-Similar works...
-
-[Learning Brain Representation with Hierarchical Visual Embeddings](https://openreview.net/forum?id=IEq71qS8B7)
-
-[Bridging the Vision-Brain Gap with an Uncertainty-Aware Blur Prior](https://arxiv.org/abs/2503.04207)
-
-[Visual Decoding and Reconstruction via EEG Embeddings with Guided Diffusion](https://proceedings.neurips.cc/paper_files/paper/2024/hash/ba5f1233efa77787ff9ec015877dbd1f-Abstract-Conference.html)
 
 
 ## Results
@@ -140,6 +126,39 @@ Our model achieves the following performances on :
 
 | Dataset  | Intra Top 1 Accuracy  | Intra Top 5 Accuracy | Inter Top 1 Accuracy | Inter Top 5 Accuracy |
 |----------|-----------------------| -------------------- | -------------------- | -------------------- |
-|THINGS-EEG|          80.8%        |      97.0%           |         33.7%        |      65.8%           |
+|THINGS-EEG|          80.7%        |      97.0%           |         33.7%        |      65.8%           |
 |THINGS-MEG|          33.1%        |      61.5%           |         7.4%         |      19.3%           |
+
+### Reconstruction evaluation
+
+
+| Dataset / setting | PixCorr ↑ | SSIM ↑ | AlexNet(2) ↑ | AlexNet(5) ↑ | Inception ↑ | CLIP ↑ | SwAV ↓ |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| THINGS-EEG (10-subject average) | 0.163 | 0.304 | 0.799 | 0.855 | 0.699 | 0.736 | 0.602 |
+| THINGS-EEG (subject 8) | 0.188 | 0.332 | 0.821 | 0.868 | 0.726 | 0.764 | 0.584 |
+| THINGS-MEG (4-subject average) | 0.104 | 0.258 | 0.672 | 0.774 | 0.679 | 0.697 | 0.644 |
+
+
+[Qualitative EEG reconstruction results](reconstruction.png)
+
+
+## Citation
+
+If you find this project useful, please cite the BRIDGE paper. Replace the provisional bibliographic details below with the official NeurIPS proceedings record once available:
+
+```bibtex
+@inproceedings{hong2026bridge,
+  title={BRIDGE: Brain-Vision Representation Integration through Depth and Granularity Encoding},
+  author={Hong, Chenyuan and Ye, Binghao and Guo, Yufei and Qi, Liguo},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2026}
+}
+```
+
+## Related work
+
+- [Learning Brain Representation with Hierarchical Visual Embeddings (BrainHiVE)](https://openreview.net/forum?id=IEq71qS8B7)
+- [Bridging the Vision-Brain Gap with an Uncertainty-Aware Blur Prior](https://arxiv.org/abs/2503.04207)
+- [Visual Decoding and Reconstruction via EEG Embeddings with Guided Diffusion](https://proceedings.neurips.cc/paper_files/paper/2024/hash/ba5f1233efa77787ff9ec015877dbd1f-Abstract-Conference.html)
+
 
